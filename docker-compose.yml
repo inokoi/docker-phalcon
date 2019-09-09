@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+    users:
+        build: ./users
+        depends_on:
+            - php-fpm
+        volumes:
+            - ./users/www:/var/www/users
+
+    site:
+        build: ./site
+        ports:
+            - "80:80"
+        depends_on:
+            - php-fpm
+        volumes:
+            - ./site/www:/var/www/site
+
+    php-fpm:
+        build: ./php-fpm
+        volumes:
+            - ./site/www:/var/www/site
+            - ./users/www:/var/www/users
